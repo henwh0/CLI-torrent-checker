@@ -27,6 +27,15 @@ def format_eta(seconds):
     else:
         return f"{secs}s"
 
+def format_speed(bytes_per_sec):
+    units = ["B/s", "KB/s", "MB/s", "GB/s"]
+    speed = float(bytes_per_sec)
+
+    for unit in units:
+        if speed < 1024 or unit == units[-1]:
+            return f"{speed:.2f} {unit}"
+        speed /= 1024
+
 
 try:
     client = qbittorrentapi.Client(**connection_info)
@@ -45,9 +54,9 @@ try:
         
         for t in torrents:
             name = (t.name[:37] + '..') if len(t.name) > 37 else t.name
-            speed_mb = t.dlspeed / (1024 * 1024)
+            speed = format_speed(t.dlspeed)
             readable_eta = format_eta(t.eta)
-            print(f"{name:<40} | {t.state:<12} | {t.progress*100:>7.1f}% | {speed_mb:<7.2f} MB/s | {readable_eta:<10}")
+            print(f"{name:<40} | {t.state:<12} | {t.progress*100:>7.1f}% | {speed:<12} | {readable_eta:<10}")
             
 except Exception as e:
 
