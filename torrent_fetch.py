@@ -5,7 +5,7 @@
 import qbittorrentapi
 
 connection_info = dict (
-    host='YOUR HOSTNAME',
+    host='YOUR HOSTNAME AND PORT',
     username='YOUR WEBUI USERNAME',
     password='YOUR WEBUI PASSWORD'
 )
@@ -50,4 +50,5 @@ try:
             print(f"{name:<40} | {t.state:<12} | {t.progress*100:>7.1f}% | {speed_mb:<7.2f} MB/s | {readable_eta:<10}")
             
 except Exception as e:
+
     print(f"Error connecting to qBittorrent: {e}")
